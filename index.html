@@ -4,15 +4,17 @@ layout: default
 
 <!-- Show last 5 posts here -->
 {% for post in paginator.posts %}
-<article>
+<div class="post">
   <header class="post-header">
     <h1><a href="{{site.baseurl}}{{post.url}}">{{ post.title }}</a></h2>
     <p class="meta">{{ page.date | date: "%b %-d, %Y" }}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
   </header>
 
-  <div class="entry">{{ post.content }}</div>
+  <article class="post-content">
+  {{ post.content }}
+  </article>
 
-</article>
+</div>
 <br/>
 {% endfor %}
 
