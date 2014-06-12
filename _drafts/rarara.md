@@ -61,7 +61,7 @@ If it is correct, then the value "Correct" is placed in the buffer where "Wrong"
 So, to summarize we need to find a password of length 13 comprised of alphanumeric characters whose sum is 0x3E2 and whose CRC64 when placed in a set array at specific indexes is equal to 0x15AD90B88ABA1847
 
 ## Breaking CRC
-A past challenge involved appending data to the end of a string in order to obtain arbitrary CRCs. That's a less helpful ability for this challenge since we're not changing 8 consecutive bytes in the crc (so the same algorithm doesn't apply) and there's no way of ensuring we will only have alphanumeric characters.
+A previous challenge involved appending data to the end of a string in order to obtain arbitrary CRCs. That's a less helpful ability for this challenge since we're not changing 8 consecutive bytes in the crc (so the same algorithm doesn't apply) and there's no way of ensuring we will only have alphanumeric characters.
 
 However, there is an interesting property of CRC that we can use - CRC is a linear function. This means that CRC(x) ^ CRC(y) ^ CRC(z) = CRC(x^y^z). Since CRC(0) = 0 in this implementation (usually there is a xor with 0xxffff... that prevents this), we get CRC(x^y) = CRC(x) ^ CRC(y).
 
@@ -79,7 +79,7 @@ We split our solution into two parts. First we generated a ranked matrix in pyth
 The original C++ code was still very slow. It took around an hour to go over all of the possible values for 27 bits.
 The speed was significantly boosted by checking after every 7 bits if the letter was valid. This effectively allowed us to short circuit solutions that were known to be invalid and improved the speed to around 30 seconds.
 
-The other major optimization was moving from vector<bool> to bitsets. Because bitsets have built in operator& and count functions that work effeciently the speed of the inner function was vastly improved.
+The other major optimization was moving from `vector<bool>` to `bitset`s. Because bitsets have built in `operator&` and `count` functions that work effeciently the speed of the inner function was vastly improved (see below).
 
 Using bitsets the speed of the program was reduced to 4 seconds.
 
@@ -87,7 +87,7 @@ But we can do even better :)
 
 We know that the xor of the lower bits of all of the equations is zero, because the sum of the letters is even. Therefore, we can add a row to our matrix and we have one less bit that we have to brute force. Final speed is around 2 seconds.
 
-# The answer
+## The answer
 At some point I introduced I bug that is difficult to fix that causes only 10 of the 14 solutions to be found.
 
 The full 14 solutions taken from an old version of the code are:
