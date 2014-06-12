@@ -8,7 +8,7 @@ tags: reversing, math, crc
 ---
 This is a writeup of the challenge rarara from the secuinside 2014 pre-qual ctf.
 
-This was the probably the hardest challenge in the competition and only one team had managed to solve it a few hours before the competition ended when my team had to leave early.
+I participated in this challenge together with [Yoav Ben Shalom](//github.com/yabash), [Matan Mates](//github.com/mtnmts), and [Itamar Marom](//stackoverflow.com/users/543832/itamar-marom). This was the probably the hardest challenge in the competition and only one team had managed to solve it a few hours before the competition ended when my team had to leave early.
 
 We had figured out the solution but ran out of time before implementing it. Had we stayed and finished this level and another we likely would have been in the top ten teams, but oh well!
 
@@ -52,4 +52,67 @@ So straight and organized! Now we can start working.
 
 After making sure that all of the characters are alphanumeric, the program places the letters into a global array in jumps of 0x14 while keeping track of the sum. The sum is later compared to 0x3E2 giving us our third constraint on the password (the other two being length and alphanumericness).
 
-The global array is then processed in a loop. This was the third challenge in the competition involving CRC's, so we quickly recognized the loop as calculating the crc64 of the global array (of length 0x100) with the letters of our password placed in the indexes as described above.
+The global array is then processed in a loop. This was the third challenge in the competition involving CRC's, so we quickly recognized the loop as calculating the crc64 of the global array (of length 0x100) with the letters of our password placed in the indexes as described above. The crc is then compared to a constant value.
+
+![Crc test](/images/rarara/crc_ida.png)
+
+If it is correct, then the value "Correct" is placed in the buffer where "Wrong" was held before so "Correct" will be printed at the end of the program.
+
+So, to summarize we need to find a password of length 13 comprised of alphanumeric characters whose sum is 0x3E2 and whose CRC64 when placed in a set array at specific indexes is equal to 0x15AD90B88ABA1847
+
+## Breaking CRC
+A past challenge involved appending data to the end of a string in order to obtain arbitrary CRCs. That's a less helpful ability for this challenge since we're not changing 8 consecutive bytes in the crc (so the same algorithm doesn't apply) and there's no way of ensuring we will only have alphanumeric characters.
+
+However, there is an interesting property of CRC that we can use - CRC is a linear function. This means that CRC(x) ^ CRC(y) ^ CRC(z) = CRC(x^y^z). Since CRC(0) = 0 in this implementation (usually there is a xor with 0xxffff... that prevents this), we get CRC(x^y) = CRC(x) ^ CRC(y).
+
+Using this knowledge, we can check how each bit of input affects the final CRC. We start by filling the array with a throwaway value - we filled the array with 0x41 ('A') as our base value. We then change a single bit and look at the new CRC. Since CRC(x ^ y) = CRC(x) ^ CRC(y) we get CRC(_array with bit changed_) = CRC(_array_) ^ CRC(_effect of changing that bit_)
+
+In other words, we can look at what happens when we change a single bit and then figure out which bits we want to change and which we want to keep the same.
+
+We do this by building up a matrix where each column is the effect of changing a single bit. By multiplying each row with whether or not we actually change that bit we should get the final CRC.
+
+The problem then becomes one of solving a simple linear equation. Since we have 91 input bits (13 letters * 7 unknown bits since the upper bit is always 0) and 64 rows in our matrix (since the CRC is 64 bits long) we still need to iterate over 91 - 64 = 27 bits and check if the solution is valid (alphanumeric and proper sum).
+
+We split our solution into two parts. First we generated a ranked matrix in python. We then found all of the solutions in C++ since python was too slow.
+
+## Optimizations
+The original C++ code was still very slow. It took around an hour to go over all of the possible values for 27 bits.
+The speed was significantly boosted by checking after every 7 bits if the letter was valid. This effectively allowed us to short circuit solutions that were known to be invalid and improved the speed to around 30 seconds.
+
+The other major optimization was moving from vector<bool> to bitsets. Because bitsets have built in operator& and count functions that work effeciently the speed of the inner function was vastly improved.
+
+Using bitsets the speed of the program was reduced to 4 seconds.
+
+But we can do even better :)
+
+We know that the xor of the lower bits of all of the equations is zero, because the sum of the letters is even. Therefore, we can add a row to our matrix and we have one less bit that we have to brute force. Final speed is around 2 seconds.
+
+# The answer
+At some point I introduced I bug that is difficult to fix that causes only 10 of the 14 solutions to be found.
+
+The full 14 solutions taken from an old version of the code are:
+
+    B0CFbYG14gbvA
+    TSG2MZ0bt3JJN
+    Xnu073LG6YC7q
+    tDDR3OA6Q7YDv
+    sJUA3vYTH5BI1
+    r2F1l2z2SyK33
+    4cUZ89Rti11h2
+    2x0LSbXAIwB84
+    i05SJ5E9pnl7C
+    R3V3s1nGkRG0G <-- Looks like t3xt
+    9X8LdMPGZL4Dg
+    0o4CaRv15p20k
+    V62T3zKIuDZI3
+    Jl2gKZf008oK6
+
+Because we didn't finish this challenge during the competition I can't be completely sure but it looks like R3V3s1nGkRG0G was the solution.
+
+You can see our code below, first the python and then the c++
+
+
+
+{% gist jgeralnik/143e60b5e97070857c33 %}
+{% gist jgeralnik/59535038feb61dbeeb30 %}
+
