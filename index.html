@@ -2,19 +2,38 @@
 layout: default
 ---
 
-<div class="home">
+<!-- Show last 5 posts here -->
+{% for post in paginator.posts %}
+<article>
+  <header class="post-header">
+    <h1><a href="{{site.baseurl}}{{post.url}}">{{ post.title }}</a></h2>
+    <p class="meta">{{ page.date | date: "%b %-d, %Y" }}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
+  </header>
 
-  <h1>Posts</h1>
+  <div class="entry">{{ post.content }}</div>
 
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+</article>
+<br/>
+{% endfor %}
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 
+<div id="paginator">
+  {% if paginator.next_page %}
+  <a href="{{site.baseurl}}/page{{paginator.next_page}}">
+    &laquo; Older Posts</a>
+  {% endif %}
+
+  {% if paginator.previous_page %}
+  {% if paginator.previous_page == 1 %}
+  <span class="more">
+    <a href="{{site.baseurl}}/">
+      Newer Posts &raquo; </a>
+  </span>
+  {% else %}
+  <span class="more">
+    <a href="{{site.baseurl}}/page{{paginator.previous_page}}">
+      Newer Posts &raquo; </a>
+  </span>
+  {% endif %}
+  {% endif %}
 </div>
