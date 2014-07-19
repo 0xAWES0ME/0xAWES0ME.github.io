@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Guestbook - SQL Injection (Pwnium CTF)"
-date:   2014-07-19 18:15:00
+date:   2014-07-19 18:15
 categories: writeups
 author: Joey Geralnik
 tags: sqli
