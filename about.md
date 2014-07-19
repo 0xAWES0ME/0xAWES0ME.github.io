@@ -4,6 +4,4 @@ title: About
 permalink: /about/
 ---
 
-I don't know what this site will hold in the future.
-
-For now it holds this.
+Writeups from various CTFs I participated in as a founding member of 0xAWES0ME.
