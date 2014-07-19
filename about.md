@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-Writeups from various CTFs I participated in as a founding member of 0xAWES0ME.
+Writeups from various CTFs we've participated in as members of team 0xAWES0ME.

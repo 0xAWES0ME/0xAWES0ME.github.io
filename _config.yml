@@ -1,7 +1,19 @@
 # Site settings
 title: Writeups and stuff
-email: jgeralnik@gmail.com
-username: jgeralnik
+
+authors:
+  - username: 0xAWES0ME
+    github: true
+    twitter: false
+  - email: jgeralnik@gmail.com
+    username: jgeralnik
+    github: true
+    twitter: true
+  - email: matan@matan.me
+    username: mtnmts
+    github: true
+    twitter: false
+
 description: "CTF writeups from team 0xAWES0ME"
 baseurl: ""
 
