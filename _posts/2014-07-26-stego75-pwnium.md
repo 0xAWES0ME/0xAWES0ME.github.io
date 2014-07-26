@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Stego75 - (Pwnium CTF)"
+title: "Matter of Combination - Stego75 - (Pwnium CTF)"
 date:   2014-07-26 16:00
 categories: writeups
 author: Matan Mates
 tags: ctf, stego
 ---
 
-This is a writeup of the challenge Stego75 from the 2014 Pwnium CTF.
+This is a writeup of the challenge Matter of combination from the 2014 Pwnium CTF.
 
 The team that participated for in this CTF representing 0xAWES0ME consisted of Joey Geralnik, Yoav Ben Shalom, Itay Yona, Gal Dor and me.
 
