@@ -31,13 +31,7 @@ That looks interesting!, lets take a closer look...
 So, just by opening paint you can check the pixel offsets and you'll notice there's a pattern, each line is perfectly diagonal
 and is exactly 55 pixels long, and at the location that one line cuts ends, a new one continues again from the top of the image.
 
-There are six of these lines, these are the beginning and ending points of the six pixel ladders:
-1,   0 to 56,  55
-57,  0 to 113, 55
-114, 0 to 168, 55
-169, 0 to 224, 55
-225, 0 to 280, 55
-281, 0 to 336, 55
+There are six of these lines, these are the beginning and ending points of the six pixel ladders, each with a length of 56 pixels, you can see the X,Y's of the ladders in the picture below.
 
 
 ## Extraction
