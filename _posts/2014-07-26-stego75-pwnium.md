@@ -19,7 +19,7 @@ There have been multiple requests for a writeup for Stego75 and there weren't an
 
 After downloading the challenge and opening it you see the following PNG image of a blue flag.
 
-![The file we got](/images/stego75pwnium2014/Stego75.png)  
+![The file we got](/images/stego75pwnium2014/Steg75.png)  
 
 one of the first things you will immidiately notice are a few diagonal lines that are one pixel wide
 that cross the image from the top left to bottom right into a depth of exactly 55 pixels down into the image.
@@ -59,7 +59,7 @@ it's our first "ladder" beginning at 0,1!.
 
 lets decode it!
 
-![Win!](/images/stego75pwnium2014/stego3-ascii.png)
+![Win!](/images/stego75pwnium2014/stego3-ascii3.png)
 
 Win!.
 
