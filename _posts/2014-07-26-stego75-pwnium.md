@@ -26,6 +26,8 @@ that cross the image from the top left to bottom right into a depth of exactly 5
 
 That looks interesting!, lets take a closer look...
 
+## Pattern?
+
 So, just by opening paint you can check the pixel offsets and you'll notice there's a pattern, each line is perfectly diagonal
 and is exactly 55 pixels long, and at the location that one line cuts ends, a new one continues again from the top of the image.
 
@@ -37,6 +39,8 @@ There are six of these lines, these are the beginning and ending points of the s
 225, 0 to 280, 55
 281, 0 to 336, 55
 
+
+## Extraction
 
 Okay, this is good, lets write a bit of code so we can extract the data, we will use Python & PIL (Python Imaging Library).
 
@@ -61,7 +65,7 @@ lets decode it!
 
 ![Win!](/images/stego75pwnium2014/stego3-ascii3.png)
 
-Win!.
+## Win!
 
 
 I rather enjoyed this stego challenge, it was short and to the point, when the challenge was released we jumped at it and threw some powerful stego tools
