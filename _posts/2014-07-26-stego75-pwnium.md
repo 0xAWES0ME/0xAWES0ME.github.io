@@ -13,7 +13,7 @@ The team that participated for in this CTF representing 0xAWES0ME consisted of J
 
 We came in first place!.
 
-There have been multiple requests for a writeup for Stego75 and there weren't any yet (and Joey was getting pushy about me writing this already) so here i is.
+There have been multiple requests for a writeup for Stego75 and there weren't any yet (and Joey was getting pushy about me writing this already) so here it is.
 
 ## Le Challenge
 
